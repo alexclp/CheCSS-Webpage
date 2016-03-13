@@ -5,7 +5,11 @@ var directory = require('./directory.json');
 
 function makeStuffHappen(text) {
 
+    // alert(text);
     var cssData = css.parse(text, {});
+    alert(css.stringify(cssData, {}));
+    // alert(cssData);
+    alert(util.inspect(cssData, {showHidden: false, depth: null}));
     //console.log(util.inspect(cssData, {showHidden: false, depth: null}));
     var properties = [];
     var values = [];
