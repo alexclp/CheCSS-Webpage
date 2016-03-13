@@ -41,8 +41,10 @@
         <p>Put your CSS here for checking</p>
 
         <p>
-          <textarea id="textarea" rows="3"></textarea>
+          <textarea id="textarea" rows="15" cols="100"></textarea>
         </p>
+
+        <button type="button" class="btn btn-primary" onclick="submitButtonPressed()">Submit</button>
 
       </form>
 
@@ -57,5 +59,10 @@
     <script src="bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script type="text/javascript">
+      function submitButtonPressed() {
+        alert("Submit button was pressed");
+      }
+    </script>
   </body>
 </html>
