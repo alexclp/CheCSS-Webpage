@@ -11,7 +11,7 @@ window.Parser = function (browsers, data) {
 
         var cssData = css.parse(data, {});
         console.log(util.inspect(cssData, {showHidden: false, depth: null}));
-        
+
         var properties = [];
         var values = [];
 
@@ -34,7 +34,7 @@ window.Parser = function (browsers, data) {
             for (var j = 0; j < directory.properties.length; j++) {
                 if (properties[i] === directory.properties[j].name) {
 
-                    var file = require('./data/' + directory.properties[j].file);
+                    var file = require('./data/' + directory.properties[j].file + ".json");
                    console.log(properties[i]);
                     for (var key in config) {
                         var support = file.stats[key]
