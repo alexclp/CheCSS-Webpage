@@ -3,9 +3,15 @@ var css = require('css');
 var util = require('util');
 var directory = require('./directory.json');
 
+console.log("test");
+
+function helloFunction() {
+    console.log("hello function");
+}
+
 function makeStuffHappen(text) {
 
-    // alert(text);
+    alert(text);
     var cssData = css.parse(text, {});
     alert(css.stringify(cssData, {}));
     // alert(cssData);
