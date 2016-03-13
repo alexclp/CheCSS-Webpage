@@ -1,95 +1,158 @@
 var fs = require('fs');
 var css = require('css');
 var util = require('util');
-var directory = require('/data/directory.json');
+var directory = require('./directory.json');
 
-var csscc = function (browsers) {
+function makeStuffHappen(text) {
 
-    var config = browsers;
+    var cssData = css.parse(text, {});
+    //console.log(util.inspect(cssData, {showHidden: false, depth: null}));
+    var properties = [];
+    var values = [];
 
-    fs.readFile('./src/sample.css', 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-
-        var cssData = css.parse(data, {});
-        //console.log(util.inspect(cssData, {showHidden: false, depth: null}));
-        var properties = [];
-        var values = [];
-
-        for (var i = 0; i < cssData.stylesheet.rules.length; i++) {
-//			console.log(cssData.stylesheet.rules[i]);
-            var rule = cssData.stylesheet.rules[i];
-            if (rule.declarations) {
-                for (var j = 0; j < rule.declarations.length; j++) {
-                    if (rule.declarations[j].type === "declaration") {
-//						console.log(rule.declarations[j].property);
+    for (var i = 0; i < cssData.stylesheet.rules.length; i++) {
+//          console.log(cssData.stylesheet.rules[i]);
+        var rule = cssData.stylesheet.rules[i];
+        if (rule.declarations) {
+            for (var j = 0; j < rule.declarations.length; j++) {
+                if (rule.declarations[j].type === "declaration") {
+//                      console.log(rule.declarations[j].property);
 //                        console.log(rule.declarations[j]);
-                        properties.push(rule.declarations[j].property);
-                        values.push(rule.declarations[j].value);
-                    }
+                    properties.push(rule.declarations[j].property);
+                    values.push(rule.declarations[j].value);
                 }
             }
         }
+    }
 
-        for (var i = 0; i < properties.length; i++) {
-            for (var j = 0; j < directory.properties.length; j++) {
-                if (properties[i] === directory.properties[j].name) {
+    for (var i = 0; i < properties.length; i++) {
+        for (var j = 0; j < directory.properties.length; j++) {
+            if (properties[i] === directory.properties[j].name) {
 
-                    var file = require('./data/' + directory.properties[j].file);
-//                    console.log(properties[i]);
-                    for (var key in config) {
-                        var support = file.stats[key]
-                        //console.log(config[key],file.stats[key]);
-                        for (var version in file.stats[key]) {
-                            //console.log(parseInt(version), parseInt(config[key]));
-                            if (parseInt(version) > parseInt(config[key])) {
-                                if(file.stats[key][version].indexOf('y') === -1) {
-                                    console.log("Error, " + key + " " + version + " does not support the css property '" + properties[i] + "'");
-                                }
+                var file = require('./data/' + directory.properties[j].file);
+                   alert(properties[i]);
+                for (var key in config) {
+                    var support = file.stats[key];
+                    //console.log(config[key],file.stats[key]);
+                    for (var version in file.stats[key]) {
+                        //console.log(parseInt(version), parseInt(config[key]));
+                        if (parseInt(version) > parseInt(config[key])) {
+                            if(file.stats[key][version].indexOf('y') === -1) {
+                                alert("Error, " + key + " " + version + " does not support the css property '" + properties[i] + "'");
                             }
                         }
                     }
                 }
             }
         }
+    }
 
-         for (var i = 0; i < values.length; i++) {
-            for (var j = 0; j < directory.values.length; j++) {
-                if (values[i] === directory.values[j].name) {
+     for (var i = 0; i < values.length; i++) {
+        for (var j = 0; j < directory.values.length; j++) {
+            if (values[i] === directory.values[j].name) {
 
-                    var file = require('./data/' + directory.values[j].file);
+                var file = require('./data/' + directory.values[j].file);
 //                    console.log(properties[i]);
-                    for (var key in config) {
-                        var support = file.stats[key]
-                        //console.log(config[key],file.stats[key]);
-                        for (var version in file.stats[key]) {
-                            //console.log(parseInt(version), parseInt(config[key]));
-                            if (parseInt(version) > parseInt(config[key])) {
-                                if(file.stats[key][version].indexOf('y') === -1) {
-                                    console.log("Error, " + key + " " + version + " does not support the css value '" + values[i] + "'");
-                                }
+                for (var key in config) {
+                    var support = file.stats[key]
+                    //console.log(config[key],file.stats[key]);
+                    for (var version in file.stats[key]) {
+                        //console.log(parseInt(version), parseInt(config[key]));
+                        if (parseInt(version) > parseInt(config[key])) {
+                            if(file.stats[key][version].indexOf('y') === -1) {
+                                alert("Error, " + key + " " + version + " does not support the css value '" + values[i] + "'");
                             }
                         }
                     }
                 }
             }
         }
-
-    });
+    }
 }
 
-csscc({
-    ie: "7",
-    edge: "12",
-    firefox: "16",
-    "chrome": "30",
-    "safari": "8",
-    "opera": "25"
-});
+// var csscc = function (browsers, text) {
 
-module.exports = csscc;
+//     var config = browsers;
 
+
+//     var cssData = css.parse(text, {});
+//     alert(text);
+//     //console.log(util.inspect(cssData, {showHidden: false, depth: null}));
+//     var properties = [];
+//     var values = [];
+
+//     for (var i = 0; i < cssData.stylesheet.rules.length; i++) {
+// //			console.log(cssData.stylesheet.rules[i]);
+//         var rule = cssData.stylesheet.rules[i];
+//         if (rule.declarations) {
+//             for (var j = 0; j < rule.declarations.length; j++) {
+//                 if (rule.declarations[j].type === "declaration") {
+// //						console.log(rule.declarations[j].property);
+// //                        console.log(rule.declarations[j]);
+//                     properties.push(rule.declarations[j].property);
+//                     values.push(rule.declarations[j].value);
+//                 }
+//             }
+//         }
+//     }
+
+//     for (var i = 0; i < properties.length; i++) {
+//         for (var j = 0; j < directory.properties.length; j++) {
+//             if (properties[i] === directory.properties[j].name) {
+
+//                 var file = require('./data/' + directory.properties[j].file);
+// //                    console.log(properties[i]);
+//                 for (var key in config) {
+//                     var support = file.stats[key];
+//                     //console.log(config[key],file.stats[key]);
+//                     for (var version in file.stats[key]) {
+//                         //console.log(parseInt(version), parseInt(config[key]));
+//                         if (parseInt(version) > parseInt(config[key])) {
+//                             if(file.stats[key][version].indexOf('y') === -1) {
+//                                 console.log("Error, " + key + " " + version + " does not support the css property '" + properties[i] + "'");
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+//      for (var i = 0; i < values.length; i++) {
+//         for (var j = 0; j < directory.values.length; j++) {
+//             if (values[i] === directory.values[j].name) {
+
+//                 var file = require('./data/' + directory.values[j].file);
+// //                    console.log(properties[i]);
+//                 for (var key in config) {
+//                     var support = file.stats[key]
+//                     //console.log(config[key],file.stats[key]);
+//                     for (var version in file.stats[key]) {
+//                         //console.log(parseInt(version), parseInt(config[key]));
+//                         if (parseInt(version) > parseInt(config[key])) {
+//                             if(file.stats[key][version].indexOf('y') === -1) {
+//                                 console.log("Error, " + key + " " + version + " does not support the css value '" + values[i] + "'");
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+
+// }
+// }
+
+// csscc({
+//     ie: "7",
+//     edge: "12",
+//     firefox: "16",
+//     "chrome": "30",
+//     "safari": "8",
+//     "opera": "25"
+// });
+
+// module.exports = csscc;
 
 //browsers
 //
